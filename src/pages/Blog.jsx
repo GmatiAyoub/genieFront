@@ -242,6 +242,12 @@ function Blog() {
       .catch(() => setError("Impossible de charger les actualités."))
       .finally(() => setLoading(false));
   }, []);
+  useEffect(() => {
+  if (!loading && window.location.hash) {
+    const el = document.getElementById(window.location.hash.slice(1));
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}, [loading]);
 
   if (loading) return <p className="text-slate-500">{t("loading")}</p>;
   if (error) return <p className="text-red-600">{error}</p>;
@@ -254,8 +260,7 @@ function Blog() {
 
       <div className="space-y-4">
         {articles.map((a) => (
-          <article key={a._id} className="bg-white rounded-lg shadow-sm p-5">
-            <h2 className="text-lg font-bold text-slate-800 mb-2" dir={a.rtl ? "rtl" : "ltr"}>
+<article key={a._id} id={`article-${a._id}`} className="bg-white rounded-lg shadow-sm p-5">            <h2 className="text-lg font-bold text-slate-800 mb-2" dir={a.rtl ? "rtl" : "ltr"}>
               {a.titre}
             </h2>
             <p className="text-slate-600 whitespace-pre-line" dir={a.rtl ? "rtl" : "ltr"}>
