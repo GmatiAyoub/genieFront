@@ -41,6 +41,19 @@ function Orders() {
     }
   };
 
+  const handleTogglePayment = async (id) => {
+    setActionMsg("");
+    try {
+      const res = await api.patch(`/orders/${id}/payment`);
+      setActionMsg(res.data.message);
+      setOrders((prev) =>
+        prev.map((o) => (o._id === id ? { ...o, paiement: res.data.order.paiement } : o))
+      );
+    } catch (err) {
+      setActionMsg(err.response?.data?.message || "Erreur lors de la mise à jour du paiement.");
+    }
+  };
+
   if (loading) return <p className="text-slate-500">Chargement...</p>;
   if (error) return <p className="text-red-600">{error}</p>;
 
@@ -77,24 +90,51 @@ function Orders() {
               <p className="text-sm text-slate-500">
                 Client : {o.nomClient} — Tél : {o.telephone} — Adresse : {o.adresse}
               </p>
-              <span
-                className={`inline-block mt-1 px-2 py-0.5 rounded text-xs font-semibold ${
-                  o.statut === "Nouveau"
-                    ? "bg-amber-100 text-amber-700"
-                    : "bg-green-100 text-green-700"
-                }`}
-              >
-                {o.statut}
-              </span>
+              <div className="flex gap-2 mt-1">
+                <span
+                  className={`inline-block px-2 py-0.5 rounded text-xs font-semibold ${
+                    o.statut === "Nouveau"
+                      ? "bg-amber-100 text-amber-700"
+                      : "bg-green-100 text-green-700"
+                  }`}
+                >
+                  {o.statut}
+                </span>
+                {o.statut === "Traité" && (
+                  <span
+                    className={`inline-block px-2 py-0.5 rounded text-xs font-semibold ${
+                      o.paiement === "Payé"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {o.paiement}
+                  </span>
+                )}
+              </div>
             </div>
-            {o.statut === "Nouveau" && (
-              <button
-                onClick={() => handleProcess(o._id)}
-                className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm"
-              >
-                Marquer traitée
-              </button>
-            )}
+            <div className="flex gap-2">
+              {o.statut === "Nouveau" && (
+                <button
+                  onClick={() => handleProcess(o._id)}
+                  className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm"
+                >
+                  Marquer traitée
+                </button>
+              )}
+              {o.statut === "Traité" && (
+                <button
+                  onClick={() => handleTogglePayment(o._id)}
+                  className={`px-4 py-2 rounded-lg text-sm text-white ${
+                    o.paiement === "Payé"
+                      ? "bg-red-600 hover:bg-red-700"
+                      : "bg-blue-600 hover:bg-blue-700"
+                  }`}
+                >
+                  {o.paiement === "Payé" ? "Marquer non payée" : "Marquer payée"}
+                </button>
+              )}
+            </div>
           </div>
         ))}
       </div>
