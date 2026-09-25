@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import api from "../api/axiosInstance.js";
 import { useLang } from "../context/LangContext.jsx";
 
+
+const isValidTunisianPhone = (phone) => {
+  const cleaned = phone.replace(/\s/g, "");
+  return /^(\+216|216)?[24579]\d{7}$/.test(cleaned);
+};
 function Books() {
   const { t } = useLang();
   const [books, setBooks] = useState([]);
@@ -36,21 +41,27 @@ function Books() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setFormError("");
-    try {
-      const res = await api.post("/orders", {
-        livre: selectedBook._id,
-        ...form,
-      });
-      setSuccessMsg(res.data.message);
-    } catch (err) {
-      setFormError(err.response?.data?.message || "Erreur lors de l'envoi de la commande.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  e.preventDefault();
+
+  if (!isValidTunisianPhone(form.telephone)) {
+    setFormError("Numéro de téléphone invalide (8 chiffres tunisiens, ex: 20123456 ou +21620123456).");
+    return;
+  }
+
+  setSubmitting(true);
+  setFormError("");
+  try {
+    const res = await api.post("/orders", {
+      livre: selectedBook._id,
+      ...form,
+    });
+    setSuccessMsg(res.data.message);
+  } catch (err) {
+    setFormError(err.response?.data?.message || "Erreur lors de l'envoi de la commande.");
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   if (loading) return <p className="text-slate-500">{t("loading")}</p>;
   if (error) return <p className="text-red-600">{error}</p>;
@@ -124,14 +135,14 @@ function Books() {
                   className="w-full px-3 py-2 border rounded-lg"
                 />
                 <input
-                  type="tel"
-                  name="telephone"
-                  placeholder={t("phone")}
-                  value={form.telephone}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 py-2 border rounded-lg"
-                />
+  type="tel"
+  name="telephone"
+  placeholder="Téléphone (ex: 20123456)"
+  value={form.telephone}
+  onChange={handleChange}
+  required
+  className="w-full px-3 py-2 border rounded-lg"
+/>
                 <input
                   type="text"
                   name="adresse"
