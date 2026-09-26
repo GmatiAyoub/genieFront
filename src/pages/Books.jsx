@@ -2,11 +2,6 @@ import { useEffect, useState } from "react";
 import api from "../api/axiosInstance.js";
 import { useLang } from "../context/LangContext.jsx";
 
-
-const isValidTunisianPhone = (phone) => {
-  const cleaned = phone.replace(/\s/g, "");
-  return /^(\+216|216)?[24579]\d{7}$/.test(cleaned);
-};
 function Books() {
   const { t } = useLang();
   const [books, setBooks] = useState([]);
@@ -18,6 +13,11 @@ function Books() {
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [formError, setFormError] = useState("");
+
+  const isValidTunisianPhone = (phone) => {
+    const cleaned = phone.replace(/\s/g, "");
+    return /^(\+216|216)?[24579]\d{7}$/.test(cleaned);
+  };
 
   useEffect(() => {
     api
@@ -41,84 +41,86 @@ function Books() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!isValidTunisianPhone(form.telephone)) {
-    setFormError("Numéro de téléphone invalide (8 chiffres tunisiens, ex: 20123456 ou +21620123456).");
-    return;
-  }
+    if (!isValidTunisianPhone(form.telephone)) {
+      setFormError("Numéro de téléphone invalide (8 chiffres tunisiens, ex: 20123456).");
+      return;
+    }
 
-  setSubmitting(true);
-  setFormError("");
-  try {
-    const res = await api.post("/orders", {
-      livre: selectedBook._id,
-      ...form,
-    });
-    setSuccessMsg(res.data.message);
-  } catch (err) {
-    setFormError(err.response?.data?.message || "Erreur lors de l'envoi de la commande.");
-  } finally {
-    setSubmitting(false);
-  }
-};
+    setSubmitting(true);
+    setFormError("");
+    try {
+      const res = await api.post("/orders", {
+        livre: selectedBook._id,
+        ...form,
+      });
+      setSuccessMsg(res.data.message);
+    } catch (err) {
+      setFormError(err.response?.data?.message || "Erreur lors de l'envoi de la commande.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
-  if (loading) return <p className="text-slate-500">{t("loading")}</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
+  if (loading) return <p className="text-stone-muted text-sm">{t("loading")}</p>;
+  if (error) return <p className="text-red-600 text-sm">{error}</p>;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">{t("catalog")}</h1>
+      <p className="text-xs tracking-[0.2em] text-gold uppercase mb-2">{t("catalog")}</p>
+      <h1 className="font-serif text-3xl text-charcoal mb-8">{t("catalog")}</h1>
 
-      {books.length === 0 && <p className="text-slate-500">{t("noBooks")}</p>}
+      {books.length === 0 && <p className="text-stone-muted text-sm">{t("noBooks")}</p>}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {books.map((b) => (
-          <div key={b._id} className="bg-white rounded-lg shadow-sm p-4 flex flex-col">
+          <div
+            key={b._id}
+            className="bg-white border border-stone-light rounded-lg overflow-hidden flex flex-col hover:border-gold transition-colors"
+          >
             {b.image ? (
-              <img
-                src={`/uploads/books/${b.image}`}
-                alt={b.titre}
-                className="h-40 w-full object-cover rounded mb-3"
-              />
+              <img src={`/uploads/books/${b.image}`} alt={b.titre} className="h-44 w-full object-cover" />
             ) : (
-              <div className="h-40 w-full bg-slate-100 rounded mb-3 flex items-center justify-center text-slate-400 text-sm">
+              <div className="h-44 w-full bg-cream flex items-center justify-center text-stone-faint text-sm">
                 Pas d'image
               </div>
             )}
-            <h2 className="font-bold text-slate-800">{b.titre}</h2>
-            {b.description && (
-              <p className="text-sm text-slate-500 mt-1 line-clamp-2">{b.description}</p>
-            )}
-            <p className="text-lg font-semibold text-slate-800 mt-2">{b.prix} DT</p>
-            <button
-              onClick={() => openOrderForm(b)}
-              className="mt-3 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm"
-            >
-              {t("order")}
-            </button>
+            <div className="p-5 flex flex-col flex-1">
+              <h2 className="font-serif text-lg text-charcoal">{b.titre}</h2>
+              {b.description && (
+                <p className="text-sm text-stone-muted mt-1 line-clamp-2">{b.description}</p>
+              )}
+              <p className="text-lg font-serif text-gold mt-3">{b.prix} DT</p>
+              <button
+                onClick={() => openOrderForm(b)}
+                className="mt-4 px-4 py-2.5 bg-charcoal text-cream rounded-md text-sm hover:bg-indigo-blue transition-colors"
+              >
+                {t("order")}
+              </button>
+            </div>
           </div>
         ))}
       </div>
 
       {selectedBook && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-bold text-lg text-slate-800">
-                {t("orderModalTitle")} : {selectedBook.titre}
+        <div className="fixed inset-0 bg-charcoal/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-cream rounded-xl p-7 w-full max-w-md">
+            <div className="flex justify-between items-center mb-5">
+              <h3 className="font-serif text-lg text-charcoal">
+                {t("orderModalTitle")} · {selectedBook.titre}
               </h3>
-              <button onClick={closeOrderForm} className="text-slate-400 hover:text-slate-600">
+              <button onClick={closeOrderForm} className="text-stone-muted hover:text-charcoal">
                 ✕
               </button>
             </div>
 
             {successMsg ? (
               <div className="text-center py-6">
-                <p className="text-green-600 font-medium mb-4">{successMsg}</p>
+                <p className="text-indigo-blue font-medium mb-5">{successMsg}</p>
                 <button
                   onClick={closeOrderForm}
-                  className="px-4 py-2 bg-slate-800 text-white rounded-lg"
+                  className="px-5 py-2.5 bg-charcoal text-cream rounded-md text-sm"
                 >
                   {t("close")}
                 </button>
@@ -132,17 +134,17 @@ function Books() {
                   value={form.nomClient}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border rounded-lg"
+                  className="w-full px-4 py-2.5 border border-stone-light rounded-md text-sm bg-white focus:outline-none focus:border-indigo-blue"
                 />
                 <input
-  type="tel"
-  name="telephone"
-  placeholder="Téléphone (ex: 20123456)"
-  value={form.telephone}
-  onChange={handleChange}
-  required
-  className="w-full px-3 py-2 border rounded-lg"
-/>
+                  type="tel"
+                  name="telephone"
+                  placeholder={t("phone") + " (ex: 20123456)"}
+                  value={form.telephone}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2.5 border border-stone-light rounded-md text-sm bg-white focus:outline-none focus:border-indigo-blue"
+                />
                 <input
                   type="text"
                   name="adresse"
@@ -150,15 +152,15 @@ function Books() {
                   value={form.adresse}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border rounded-lg"
+                  className="w-full px-4 py-2.5 border border-stone-light rounded-md text-sm bg-white focus:outline-none focus:border-indigo-blue"
                 />
 
-                {formError && <p className="text-red-600 text-sm">{formError}</p>}
+                {formError && <p className="text-red-600 text-xs">{formError}</p>}
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 disabled:opacity-50"
+                  className="w-full px-4 py-3 bg-charcoal text-cream rounded-md text-sm hover:bg-indigo-blue transition-colors disabled:opacity-50"
                 >
                   {submitting ? t("sending") : t("confirmOrder")}
                 </button>

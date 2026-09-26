@@ -38,9 +38,7 @@ function NotificationBell() {
     if (!notif.read) {
       try {
         await api.patch(`/notifications/${notif._id}/read`);
-        setNotifications((prev) =>
-          prev.map((n) => (n._id === notif._id ? { ...n, read: true } : n))
-        );
+        setNotifications((prev) => prev.map((n) => (n._id === notif._id ? { ...n, read: true } : n)));
       } catch (err) {
         // silencieux
       }
@@ -50,10 +48,10 @@ function NotificationBell() {
 
   return (
     <div className="relative">
-      <button onClick={() => setOpen((v) => !v)} className="relative text-white hover:text-slate-300">
+      <button onClick={() => setOpen((v) => !v)} className="relative text-gold hover:text-cream transition-colors">
         🔔
         {unreadCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
             {unreadCount}
           </span>
         )}
@@ -61,31 +59,29 @@ function NotificationBell() {
 
       {open && (
         <>
-          {/* overlay pour fermer au clic en dehors */}
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-
-          <div className="fixed top-4 left-60 w-80 bg-white text-slate-800 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
-            <div className="flex justify-between items-center p-3 border-b">
-              <span className="font-semibold text-sm">Notifications</span>
+          <div className="fixed top-4 left-64 w-80 bg-white text-charcoal rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto border border-stone-light">
+            <div className="flex justify-between items-center p-3 border-b border-stone-light">
+              <span className="font-medium text-sm">Notifications</span>
               {unreadCount > 0 && (
-                <button onClick={handleMarkAllRead} className="text-xs text-blue-600 hover:underline">
+                <button onClick={handleMarkAllRead} className="text-xs text-indigo-blue hover:underline">
                   Tout marquer lu
                 </button>
               )}
             </div>
             {notifications.length === 0 && (
-              <p className="p-3 text-sm text-slate-400">Aucune notification.</p>
+              <p className="p-3 text-sm text-stone-faint">Aucune notification.</p>
             )}
             {notifications.map((n) => (
               <button
                 key={n._id}
                 onClick={() => handleClickNotification(n)}
-                className={`w-full text-left p-3 text-sm border-b last:border-0 hover:bg-slate-100 transition-colors ${
-                  !n.read ? "bg-slate-50 font-medium" : "text-slate-500"
+                className={`w-full text-left p-3 text-sm border-b border-stone-light last:border-0 hover:bg-cream transition-colors ${
+                  !n.read ? "bg-cream/60 font-medium" : "text-stone-muted"
                 }`}
               >
                 {n.message}
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-stone-faint mt-1">
                   {new Date(n.createdAt).toLocaleString("fr-FR")}
                 </p>
               </button>

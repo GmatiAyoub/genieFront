@@ -8,7 +8,6 @@ function BlogManagement() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [actionMsg, setActionMsg] = useState("");
-
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -26,9 +25,7 @@ function BlogManagement() {
     }
   };
 
-  useEffect(() => {
-    fetchArticles();
-  }, []);
+  useEffect(() => { fetchArticles(); }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -80,84 +77,54 @@ function BlogManagement() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">Gestion du blog</h1>
+      <p className="text-xs tracking-[0.2em] text-gold uppercase mb-2">Blog</p>
+      <h1 className="font-serif text-3xl text-charcoal mb-8">Gestion du blog</h1>
 
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white rounded-lg shadow-sm p-4 mb-6 space-y-3 max-w-lg"
-      >
-        <h2 className="font-bold text-slate-700">
+      <form onSubmit={handleSubmit} className="bg-white border border-stone-light rounded-lg p-6 mb-8 space-y-3 max-w-lg">
+        <h2 className="font-serif text-lg text-charcoal mb-1">
           {editingId ? "Modifier l'article" : "Nouvel article"}
         </h2>
-
         <input
-          type="text"
-          name="titre"
-          placeholder="Titre"
-          value={form.titre}
-          onChange={handleChange}
-          required
+          type="text" name="titre" placeholder="Titre" value={form.titre} onChange={handleChange} required
           dir={form.rtl ? "rtl" : "ltr"}
-          className="w-full px-3 py-2 border rounded-lg"
+          className="w-full px-4 py-2.5 border border-stone-light rounded-md text-sm focus:outline-none focus:border-indigo-blue"
         />
         <textarea
-          name="contenu"
-          placeholder="Contenu (tu peux écrire librement, même en mélangeant les langues)"
-          value={form.contenu}
-          onChange={handleChange}
-          required
-          rows={5}
+          name="contenu" placeholder="Contenu (écriture libre, même en mélangeant les langues)"
+          value={form.contenu} onChange={handleChange} required rows={5}
           dir={form.rtl ? "rtl" : "ltr"}
-          className="w-full px-3 py-2 border rounded-lg"
+          className="w-full px-4 py-2.5 border border-stone-light rounded-md text-sm focus:outline-none focus:border-indigo-blue"
         />
-
-        <label className="flex items-center gap-2 text-sm text-slate-600">
+        <label className="flex items-center gap-2 text-xs text-stone-muted">
           <input type="checkbox" name="rtl" checked={form.rtl} onChange={handleChange} />
           Afficher de droite à gauche (texte majoritairement en arabe)
         </label>
-
-        {actionMsg && <p className="text-slate-600 text-sm">{actionMsg}</p>}
-
+        {actionMsg && <p className="text-stone-muted text-xs">{actionMsg}</p>}
         <div className="flex gap-2">
-          <button
-            type="submit"
-            disabled={submitting}
-            className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 disabled:opacity-50"
-          >
+          <button type="submit" disabled={submitting}
+            className="px-5 py-2.5 bg-charcoal text-cream rounded-md text-sm hover:bg-indigo-blue transition-colors disabled:opacity-50">
             {submitting ? "Enregistrement..." : editingId ? "Enregistrer" : "Publier"}
           </button>
           {editingId && (
-            <button
-              type="button"
-              onClick={cancelEdit}
-              className="px-4 py-2 border rounded-lg hover:bg-slate-100"
-            >
+            <button type="button" onClick={cancelEdit} className="px-5 py-2.5 border border-stone-light rounded-md text-sm hover:bg-cream transition-colors">
               Annuler
             </button>
           )}
         </div>
       </form>
 
-      {loading && <p className="text-slate-500">Chargement...</p>}
-      {error && <p className="text-red-600">{error}</p>}
+      {loading && <p className="text-stone-muted text-sm">Chargement...</p>}
+      {error && <p className="text-red-600 text-sm">{error}</p>}
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {articles.map((a) => (
-          <div key={a._id} className="bg-white rounded-lg shadow-sm p-4 flex items-center justify-between">
-            <span className="font-bold text-slate-800" dir={a.rtl ? "rtl" : "ltr"}>
-              {a.titre}
-            </span>
+          <div key={a._id} className="bg-white border border-stone-light rounded-lg p-4 flex items-center justify-between">
+            <span className="font-serif text-charcoal" dir={a.rtl ? "rtl" : "ltr"}>{a.titre}</span>
             <div className="flex gap-2">
-              <button
-                onClick={() => startEdit(a)}
-                className="px-4 py-2 border rounded-lg hover:bg-slate-100 text-sm"
-              >
+              <button onClick={() => startEdit(a)} className="px-4 py-2 border border-stone-light rounded-md text-xs hover:bg-cream transition-colors">
                 Modifier
               </button>
-              <button
-                onClick={() => handleDelete(a._id)}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm"
-              >
+              <button onClick={() => handleDelete(a._id)} className="px-4 py-2 bg-red-600 text-white rounded-md text-xs hover:bg-red-700 transition-colors">
                 Supprimer
               </button>
             </div>

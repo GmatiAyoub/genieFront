@@ -5,20 +5,24 @@ function MainLayout() {
   const { lang, setLang, t } = useLang();
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
-      <header className="bg-white shadow-sm">
-        <nav className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="text-xl font-bold text-slate-800">
-            Le Génie Bac Sciences
+    <div className="min-h-screen flex flex-col bg-cream font-sans">
+      <header className="bg-cream/95 backdrop-blur-sm border-b border-stone-light sticky top-0 z-40">
+        <nav className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-3">
+            <img src="/logo.png" alt="Le Génie" className="h-10 w-10 object-contain" />
+            <div className="leading-tight">
+              <p className="font-serif text-lg text-charcoal">Le Génie</p>
+              <p className="text-[9px] tracking-[0.2em] text-stone-faint">BAC SCIENCES</p>
+            </div>
           </Link>
-          <div className="flex items-center gap-6 text-slate-600">
-            <Link to="/ressources" className="hover:text-slate-900">{t("resources")}</Link>
-            <Link to="/livres" className="hover:text-slate-900">{t("books")}</Link>
-            <Link to="/blog" className="hover:text-slate-900">{t("blog")}</Link>
+          <div className="flex items-center gap-7 text-sm text-charcoal">
+            <Link to="/ressources" className="hover:text-indigo-blue transition-colors">{t("resources")}</Link>
+            <Link to="/livres" className="hover:text-indigo-blue transition-colors">{t("books")}</Link>
+            <Link to="/blog" className="hover:text-indigo-blue transition-colors">{t("blog")}</Link>
             <select
               value={lang}
               onChange={(e) => setLang(e.target.value)}
-              className="px-2 py-1 border rounded-lg text-sm"
+              className="px-2 py-1 border border-stone-light rounded-md text-xs bg-transparent"
             >
               <option value="fr">FR</option>
               <option value="ar">AR</option>
@@ -27,11 +31,11 @@ function MainLayout() {
         </nav>
       </header>
 
-      <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-8">
+      <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-10">
         <Outlet />
       </main>
 
-      <footer className="bg-white border-t py-6 text-center text-slate-500 text-sm">
+      <footer className="bg-charcoal text-cream/70 py-8 text-center text-xs">
         © {new Date().getFullYear()} Le Génie Bac Sciences
       </footer>
     </div>

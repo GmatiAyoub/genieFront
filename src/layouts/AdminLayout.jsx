@@ -11,30 +11,37 @@ function AdminLayout() {
     navigate("/login");
   };
 
+  const linkClass = "text-sm text-cream/70 hover:text-gold transition-colors";
+
   return (
-    <div className="min-h-screen flex bg-slate-50">
-      <aside className="w-56 bg-slate-800 text-white flex flex-col p-4">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="font-bold text-lg">Espace Admin</h2>
+    <div className="min-h-screen flex bg-cream font-sans">
+      <aside className="w-60 bg-charcoal text-cream flex flex-col p-5">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <p className="font-serif text-lg">Le Génie</p>
+            <p className="text-[9px] tracking-[0.2em] text-gold">ESPACE ADMIN</p>
+          </div>
           <NotificationBell />
         </div>
-        <nav className="flex flex-col gap-2 flex-1">
-          <Link to="/admin" className="hover:text-slate-300">Dashboard</Link>
-          <Link to="/admin/ressources" className="hover:text-slate-300">Gestion ressources</Link>
-          <Link to="/admin/validation-ressources" className="hover:text-slate-300">Validation ressources</Link>
-          <Link to="/admin/validation-livres" className="hover:text-slate-300">Validation livres</Link>
-          <Link to="/admin/validation-blog" className="hover:text-slate-300">Validation blog</Link>
-          <Link to="/admin/commandes" className="hover:text-slate-300">Commandes</Link>
-          <Link to="/admin/livres" className="hover:text-slate-300">Gestion livres</Link>
-          <Link to="/admin/contributeurs" className="hover:text-slate-300">Contributeurs</Link>
-          <Link to="/admin/blog" className="hover:text-slate-300">Blog</Link>
+        <nav className="flex flex-col gap-3 flex-1">
+          <Link to="/admin" className={linkClass}>Dashboard</Link>
+          <Link to="/admin/ressources" className={linkClass}>Gestion ressources</Link>
+          <Link to="/admin/validation-ressources" className={linkClass}>Validation ressources</Link>
+          <Link to="/admin/validation-livres" className={linkClass}>Validation livres</Link>
+          <Link to="/admin/validation-blog" className={linkClass}>Validation blog</Link>
+          <Link to="/admin/commandes" className={linkClass}>Commandes</Link>
+          <Link to="/admin/livres" className={linkClass}>Gestion livres</Link>
+          <Link to="/admin/contributeurs" className={linkClass}>Contributeurs</Link>
+          <Link to="/admin/blog" className={linkClass}>Blog</Link>
         </nav>
-        <p className="text-xs text-slate-400 mb-2">{user?.nom}</p>
-        <button onClick={handleLogout} className="text-left text-red-300 hover:text-red-200">
-          Déconnexion
-        </button>
+        <div className="pt-4 border-t border-cream/10">
+          <p className="text-xs text-cream/50 mb-2">{user?.nom}</p>
+          <button onClick={handleLogout} className="text-left text-xs text-red-300 hover:text-red-200">
+            Déconnexion
+          </button>
+        </div>
       </aside>
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-10">
         <Outlet />
       </main>
     </div>

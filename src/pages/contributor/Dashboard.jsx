@@ -40,47 +40,48 @@ function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-800 mb-2">Bonjour {user?.nom} 👋</h1>
-      <p className="text-slate-500 mb-6">Bienvenue sur votre espace Contributeur.</p>
+      <p className="text-xs tracking-[0.2em] text-gold uppercase mb-2">Dashboard</p>
+      <h1 className="font-serif text-3xl text-charcoal mb-1">Bonjour {user?.nom}</h1>
+      <p className="text-stone-muted text-sm mb-8">Bienvenue sur votre espace Contributeur.</p>
 
-      {loading && <p className="text-slate-500">Chargement des statistiques...</p>}
+      {loading && <p className="text-stone-muted text-sm">Chargement des statistiques...</p>}
 
       {!loading && stats && (
         <>
           <div className="grid gap-4 sm:grid-cols-3 mb-8">
-            <div className="bg-white rounded-lg shadow-sm p-5">
-              <p className="text-sm text-slate-500">Mes ressources</p>
-              <p className="text-3xl font-bold text-slate-800 mt-1">{stats.myResourcesTotal}</p>
-              <p className="text-xs text-slate-400 mt-1">
+            <div className="bg-white border border-stone-light rounded-lg p-6">
+              <p className="text-xs tracking-[0.1em] text-stone-faint uppercase mb-2">Mes ressources</p>
+              <p className="font-serif text-3xl text-charcoal">{stats.myResourcesTotal}</p>
+              <p className="text-xs text-stone-muted mt-2">
                 {stats.myResourcesPending} en attente · {stats.myResourcesValidated} validées
               </p>
             </div>
-            <div className="bg-white rounded-lg shadow-sm p-5">
-              <p className="text-sm text-slate-500">Mes livres</p>
-              <p className="text-3xl font-bold text-slate-800 mt-1">{stats.myBooksTotal}</p>
-              <p className="text-xs text-slate-400 mt-1">
+            <div className="bg-white border border-stone-light rounded-lg p-6">
+              <p className="text-xs tracking-[0.1em] text-stone-faint uppercase mb-2">Mes livres</p>
+              <p className="font-serif text-3xl text-charcoal">{stats.myBooksTotal}</p>
+              <p className="text-xs text-stone-muted mt-2">
                 {stats.myBooksPending} en attente · {stats.myBooksValidated} validés
               </p>
             </div>
-            <div className="bg-white rounded-lg shadow-sm p-5">
-                <p className="text-sm text-slate-500">Mes blogs</p>
-              <p className="text-3xl font-bold text-slate-800 mt-1">{stats.myArticlesTotal}</p>
-              <p className="text-xs text-slate-400 mt-1">
+            <div className="bg-white border border-stone-light rounded-lg p-6">
+              <p className="text-xs tracking-[0.1em] text-stone-faint uppercase mb-2">Mes blogs</p>
+              <p className="font-serif text-3xl text-charcoal">{stats.myArticlesTotal}</p>
+              <p className="text-xs text-stone-muted mt-2">
                 {stats.myArticlesPending} en attente · {stats.myArticlesValidated} validés
               </p>
             </div>
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link to="/contributeur/soumettre" className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm">
+            <Link to="/contributeur/soumettre" className="px-5 py-2.5 bg-charcoal text-cream rounded-md text-sm hover:bg-indigo-blue transition-colors">
               Soumettre une ressource
             </Link>
-            <Link to="/contributeur/soumettre-livre" className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm">
+            <Link to="/contributeur/soumettre-livre" className="px-5 py-2.5 bg-charcoal text-cream rounded-md text-sm hover:bg-indigo-blue transition-colors">
               Soumettre un livre
             </Link>
-            <Link to="/contributeur/soumettre-article" className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm">
-  Soumettre un article
-</Link>
+            <Link to="/contributeur/soumettre-article" className="px-5 py-2.5 bg-charcoal text-cream rounded-md text-sm hover:bg-indigo-blue transition-colors">
+              Soumettre un blog
+            </Link>
           </div>
         </>
       )}

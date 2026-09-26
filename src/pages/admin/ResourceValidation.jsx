@@ -20,9 +20,7 @@ function ResourceValidation() {
     }
   };
 
-  useEffect(() => {
-    fetchPending();
-  }, []);
+  useEffect(() => { fetchPending(); }, []);
 
   const handleValidate = async (id) => {
     setActionMsg("");
@@ -47,47 +45,35 @@ function ResourceValidation() {
     }
   };
 
-  if (loading) return <p className="text-slate-500">Chargement...</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
+  if (loading) return <p className="text-stone-muted text-sm">Chargement...</p>;
+  if (error) return <p className="text-red-600 text-sm">{error}</p>;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">
-        Ressources en attente de validation
-      </h1>
+      <p className="text-xs tracking-[0.2em] text-gold uppercase mb-2">Validation</p>
+      <h1 className="font-serif text-3xl text-charcoal mb-8">Ressources en attente</h1>
 
-      {actionMsg && <p className="text-slate-600 mb-4">{actionMsg}</p>}
+      {actionMsg && <p className="text-stone-muted text-sm mb-4">{actionMsg}</p>}
+      {resources.length === 0 && <p className="text-stone-muted text-sm">Aucune ressource en attente.</p>}
 
-      {resources.length === 0 && <p className="text-slate-500">Aucune ressource en attente.</p>}
-
-      <div className="space-y-3">
+      <div className="space-y-2">
         {resources.map((r) => (
-          <div key={r._id} className="bg-white rounded-lg shadow-sm p-4 flex items-center justify-between">
+          <div key={r._id} className="bg-white border border-stone-light rounded-lg p-4 flex items-center justify-between">
             <div>
-              <p className="font-bold text-slate-800">{r.titre}</p>
-              <p className="text-sm text-slate-500">
-                {r.type} — {r.matiere} — proposé par {r.contributeur?.nom || "inconnu"} ({r.contributeur?.email})
+              <p className="font-serif text-charcoal">{r.titre}</p>
+              <p className="text-xs text-stone-muted">
+                {r.type} · {r.matiere} · proposé par {r.contributeur?.nom || "inconnu"} ({r.contributeur?.email})
               </p>
-              <a
-                href={`/uploads/resources/${r.fichier}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-blue-600 hover:underline"
-              >
+              <a href={`/uploads/resources/${r.fichier}`} target="_blank" rel="noopener noreferrer"
+                className="text-xs text-indigo-blue hover:underline">
                 Voir le fichier
               </a>
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleValidate(r._id)}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm"
-              >
+            <div className="flex gap-2 shrink-0">
+              <button onClick={() => handleValidate(r._id)} className="px-4 py-2 bg-charcoal text-cream rounded-md text-xs hover:bg-indigo-blue transition-colors">
                 Valider
               </button>
-              <button
-                onClick={() => handleDelete(r._id)}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm"
-              >
+              <button onClick={() => handleDelete(r._id)} className="px-4 py-2 bg-red-600 text-white rounded-md text-xs hover:bg-red-700 transition-colors">
                 Rejeter
               </button>
             </div>

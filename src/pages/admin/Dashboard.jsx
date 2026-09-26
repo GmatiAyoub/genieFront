@@ -4,9 +4,12 @@ import api from "../../api/axiosInstance.js";
 
 function StatCard({ label, value, to }) {
   return (
-    <a href={to} className="bg-white rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow">
-      <p className="text-sm text-slate-500">{label}</p>
-      <p className="text-3xl font-bold text-slate-800 mt-1">{value}</p>
+    <a
+      href={to}
+      className="bg-white border border-stone-light rounded-lg p-6 hover:border-gold transition-colors"
+    >
+      <p className="text-xs tracking-[0.1em] text-stone-faint uppercase mb-2">{label}</p>
+      <p className="font-serif text-3xl text-charcoal">{value}</p>
     </a>
   );
 }
@@ -47,10 +50,11 @@ function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-800 mb-2">Bonjour {user?.nom} 👋</h1>
-      <p className="text-slate-500 mb-6">Bienvenue sur votre espace Admin.</p>
+      <p className="text-xs tracking-[0.2em] text-gold uppercase mb-2">Dashboard</p>
+      <h1 className="font-serif text-3xl text-charcoal mb-1">Bonjour {user?.nom}</h1>
+      <p className="text-stone-muted text-sm mb-8">Bienvenue sur votre espace Admin.</p>
 
-      {loading && <p className="text-slate-500">Chargement des statistiques...</p>}
+      {loading && <p className="text-stone-muted text-sm">Chargement des statistiques...</p>}
 
       {!loading && stats && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -7,41 +7,32 @@ function MyResources() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    api
-      .get("/resources/mine")
+    api.get("/resources/mine")
       .then((res) => setResources(res.data))
       .catch(() => setError("Impossible de charger vos ressources."))
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p className="text-slate-500">Chargement...</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
+  if (loading) return <p className="text-stone-muted text-sm">Chargement...</p>;
+  if (error) return <p className="text-red-600 text-sm">{error}</p>;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">Mes ressources soumises</h1>
+      <p className="text-xs tracking-[0.2em] text-gold uppercase mb-2">Ressources</p>
+      <h1 className="font-serif text-3xl text-charcoal mb-8">Mes ressources soumises</h1>
 
-      {resources.length === 0 && (
-        <p className="text-slate-500">Vous n'avez encore soumis aucune ressource.</p>
-      )}
+      {resources.length === 0 && <p className="text-stone-muted text-sm">Vous n'avez encore soumis aucune ressource.</p>}
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {resources.map((r) => (
-          <div
-            key={r._id}
-            className="bg-white rounded-lg shadow-sm p-4 flex items-center justify-between"
-          >
+          <div key={r._id} className="bg-white border border-stone-light rounded-lg p-4 flex items-center justify-between">
             <div>
-              <p className="font-bold text-slate-800">{r.titre}</p>
-              <p className="text-sm text-slate-500">{r.type} — {r.matiere}</p>
+              <p className="font-serif text-charcoal">{r.titre}</p>
+              <p className="text-xs text-stone-muted">{r.type} · {r.matiere}</p>
             </div>
-            <span
-              className={`px-2 py-0.5 rounded text-xs font-semibold ${
-                r.statut === "En attente"
-                  ? "bg-amber-100 text-amber-700"
-                  : "bg-green-100 text-green-700"
-              }`}
-            >
+            <span className={`px-2.5 py-0.5 rounded text-[10px] tracking-wide uppercase font-medium ${
+              r.statut === "En attente" ? "bg-gold/15 text-gold" : "bg-indigo-blue/10 text-indigo-blue"
+            }`}>
               {r.statut}
             </span>
           </div>

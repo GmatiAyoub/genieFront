@@ -30,14 +30,14 @@ function CommentForm({ onSubmit, onCancel, initialValue = "", submitLabel = "Env
         onChange={(e) => setContenu(e.target.value)}
         required
         rows={2}
-        className="w-full px-3 py-2 border rounded-lg text-sm"
+        className="w-full px-3 py-2 border border-stone-light rounded-md text-sm bg-white focus:outline-none focus:border-indigo-blue"
       />
       {error && <p className="text-red-600 text-xs">{error}</p>}
       <div className="flex gap-2">
         <button
           type="submit"
           disabled={submitting}
-          className="px-4 py-1.5 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm disabled:opacity-50"
+          className="px-4 py-1.5 bg-charcoal text-cream rounded-md text-xs hover:bg-indigo-blue transition-colors disabled:opacity-50"
         >
           {submitting ? "Envoi..." : submitLabel}
         </button>
@@ -45,7 +45,7 @@ function CommentForm({ onSubmit, onCancel, initialValue = "", submitLabel = "Env
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-1.5 border rounded-lg hover:bg-slate-100 text-sm"
+            className="px-4 py-1.5 border border-stone-light rounded-md text-xs hover:bg-cream transition-colors"
           >
             Annuler
           </button>
@@ -70,10 +70,10 @@ function SingleComment({ comment, isAdmin, canEdit, onReply, onEdit, onDelete, i
   };
 
   return (
-    <div className={isReply ? "bg-white rounded-lg p-2" : "bg-slate-50 rounded-lg p-3"}>
+    <div className={isReply ? "bg-cream rounded-md p-3" : "bg-cream rounded-md p-4"}>
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-sm font-semibold text-slate-700">{comment.nom}</p>
+          <p className="text-xs font-medium text-charcoal">{comment.nom}</p>
           {editing ? (
             <CommentForm
               initialValue={comment.contenu}
@@ -82,17 +82,17 @@ function SingleComment({ comment, isAdmin, canEdit, onReply, onEdit, onDelete, i
               submitLabel="Enregistrer"
             />
           ) : (
-            <p className="text-sm text-slate-600">{comment.contenu}</p>
+            <p className="text-sm text-stone-muted mt-1">{comment.contenu}</p>
           )}
         </div>
         <div className="flex gap-2 ml-2 shrink-0">
           {canEdit && !editing && (
-            <button onClick={() => setEditing(true)} className="text-xs text-blue-600 hover:underline">
+            <button onClick={() => setEditing(true)} className="text-[11px] text-indigo-blue hover:underline">
               Modifier
             </button>
           )}
           {isAdmin && (
-            <button onClick={() => onDelete(comment._id)} className="text-xs text-red-500 hover:underline">
+            <button onClick={() => onDelete(comment._id)} className="text-[11px] text-red-500 hover:underline">
               Supprimer
             </button>
           )}
@@ -102,7 +102,7 @@ function SingleComment({ comment, isAdmin, canEdit, onReply, onEdit, onDelete, i
       {!isReply && !editing && (
         <button
           onClick={() => setShowReplyForm((v) => !v)}
-          className="text-xs text-blue-600 hover:underline mt-1"
+          className="text-[11px] text-indigo-blue hover:underline mt-2"
         >
           Répondre
         </button>
@@ -171,15 +171,15 @@ function CommentSection({ articleId }) {
   };
 
   return (
-    <div className="mt-4 border-t pt-4">
+    <div className="mt-5 border-t border-stone-light pt-4">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-slate-700">
+        <h3 className="text-xs tracking-[0.1em] text-stone-faint uppercase">
           Commentaires {topLevel.length > 0 && `(${topLevel.length})`}
         </h3>
         {!showCommentForm && (
           <button
             onClick={() => setShowCommentForm(true)}
-            className="px-4 py-1.5 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm"
+            className="px-3 py-1.5 bg-charcoal text-cream rounded-md text-xs hover:bg-indigo-blue transition-colors"
           >
             Commenter
           </button>
@@ -191,7 +191,7 @@ function CommentSection({ articleId }) {
       )}
 
       {!loading && topLevel.length === 0 && (
-        <p className="text-sm text-slate-400 mt-3">Aucun commentaire pour l'instant.</p>
+        <p className="text-sm text-stone-faint mt-3">Aucun commentaire pour l'instant.</p>
       )}
 
       <div className="space-y-2 mt-3">
@@ -207,7 +207,7 @@ function CommentSection({ articleId }) {
               isReply={false}
             />
             {repliesOf(c._id).length > 0 && (
-              <div className="ml-6 mt-2 space-y-2 border-l-2 border-slate-200 pl-3">
+              <div className="ml-6 mt-2 space-y-2 border-l-2 border-stone-light pl-3">
                 {repliesOf(c._id).map((r) => (
                   <SingleComment
                     key={r._id}
@@ -241,32 +241,39 @@ function Blog() {
       .then((res) => setArticles(res.data))
       .catch(() => setError("Impossible de charger les actualités."))
       .finally(() => setLoading(false));
-  }, []);
-  useEffect(() => {
-  if (!loading && window.location.hash) {
-    const el = document.getElementById(window.location.hash.slice(1));
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-}, [loading]);
 
-  if (loading) return <p className="text-slate-500">{t("loading")}</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
+    if (window.location.hash) {
+      setTimeout(() => {
+        const el = document.getElementById(window.location.hash.slice(1));
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 300);
+    }
+  }, []);
+
+  if (loading) return <p className="text-stone-muted text-sm">{t("loading")}</p>;
+  if (error) return <p className="text-red-600 text-sm">{error}</p>;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">{t("blogTitle")}</h1>
+      <p className="text-xs tracking-[0.2em] text-gold uppercase mb-2">{t("blogTitle")}</p>
+      <h1 className="font-serif text-3xl text-charcoal mb-8">{t("blogTitle")}</h1>
 
-      {articles.length === 0 && <p className="text-slate-500">{t("noArticles")}</p>}
+      {articles.length === 0 && <p className="text-stone-muted text-sm">{t("noArticles")}</p>}
 
-      <div className="space-y-4">
+      <div className="space-y-5 max-w-2xl">
         {articles.map((a) => (
-<article key={a._id} id={`article-${a._id}`} className="bg-white rounded-lg shadow-sm p-5">            <h2 className="text-lg font-bold text-slate-800 mb-2" dir={a.rtl ? "rtl" : "ltr"}>
+          <article
+            key={a._id}
+            id={`article-${a._id}`}
+            className="bg-white border border-stone-light rounded-lg p-6"
+          >
+            <h2 className="font-serif text-xl text-charcoal mb-3" dir={a.rtl ? "rtl" : "ltr"}>
               {a.titre}
             </h2>
-            <p className="text-slate-600 whitespace-pre-line" dir={a.rtl ? "rtl" : "ltr"}>
+            <p className="text-stone-muted text-sm leading-relaxed whitespace-pre-line" dir={a.rtl ? "rtl" : "ltr"}>
               {a.contenu}
             </p>
-            <p className="text-xs text-slate-400 mt-3">
+            <p className="text-[11px] text-stone-faint mt-4">
               {new Date(a.createdAt).toLocaleDateString("fr-FR", {
                 day: "numeric",
                 month: "long",

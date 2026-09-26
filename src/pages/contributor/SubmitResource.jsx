@@ -11,10 +11,7 @@ function SubmitResource() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file) {
-      setMsg("Merci de choisir un fichier.");
-      return;
-    }
+    if (!file) { setMsg("Merci de choisir un fichier."); return; }
     setSubmitting(true);
     setMsg("");
     try {
@@ -23,7 +20,6 @@ function SubmitResource() {
       fd.append("matiere", form.matiere);
       fd.append("type", form.type);
       fd.append("fichier", file);
-
       await api.post("/resources", fd);
       setMsg("Ressource soumise pour validation.");
       setForm({ titre: "", matiere: "", type: "Cours" });
@@ -37,49 +33,24 @@ function SubmitResource() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">Soumettre une ressource</h1>
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm p-4 max-w-md space-y-3">
-        <input
-          type="text"
-          name="titre"
-          placeholder="Titre"
-          value={form.titre}
-          onChange={handleChange}
-          required
-          className="w-full px-3 py-2 border rounded-lg"
-        />
-        <input
-          type="text"
-          name="matiere"
-          placeholder="Matière (ex: Maths)"
-          value={form.matiere}
-          onChange={handleChange}
-          required
-          className="w-full px-3 py-2 border rounded-lg"
-        />
-        <select
-          name="type"
-          value={form.type}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-lg"
-        >
+      <p className="text-xs tracking-[0.2em] text-gold uppercase mb-2">Soumission</p>
+      <h1 className="font-serif text-3xl text-charcoal mb-8">Soumettre une ressource</h1>
+
+      <form onSubmit={handleSubmit} className="bg-white border border-stone-light rounded-lg p-6 max-w-md space-y-3">
+        <input type="text" name="titre" placeholder="Titre" value={form.titre} onChange={handleChange} required
+          className="w-full px-4 py-2.5 border border-stone-light rounded-md text-sm focus:outline-none focus:border-indigo-blue" />
+        <input type="text" name="matiere" placeholder="Matière (ex: Maths)" value={form.matiere} onChange={handleChange} required
+          className="w-full px-4 py-2.5 border border-stone-light rounded-md text-sm focus:outline-none focus:border-indigo-blue" />
+        <select name="type" value={form.type} onChange={handleChange}
+          className="w-full px-4 py-2.5 border border-stone-light rounded-md text-sm focus:outline-none focus:border-indigo-blue">
           <option value="Cours">Cours</option>
           <option value="Série">Série</option>
           <option value="Devoir">Devoir</option>
         </select>
-        <input
-          type="file"
-          accept=".pdf,.doc,.docx"
-          onChange={(e) => setFile(e.target.files[0] || null)}
-          required
-          className="w-full text-sm"
-        />
-        {msg && <p className="text-slate-600 text-sm">{msg}</p>}
-        <button
-          type="submit"
-          disabled={submitting}
-          className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 disabled:opacity-50"
-        >
+        <input type="file" accept=".pdf,.doc,.docx" onChange={(e) => setFile(e.target.files[0] || null)} required className="w-full text-sm" />
+        {msg && <p className="text-stone-muted text-xs">{msg}</p>}
+        <button type="submit" disabled={submitting}
+          className="px-5 py-2.5 bg-charcoal text-cream rounded-md text-sm hover:bg-indigo-blue transition-colors disabled:opacity-50">
           {submitting ? "Envoi..." : "Soumettre"}
         </button>
       </form>

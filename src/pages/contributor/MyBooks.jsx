@@ -13,21 +13,26 @@ function MyBooks() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p className="text-slate-500">Chargement...</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
+  if (loading) return <p className="text-stone-muted text-sm">Chargement...</p>;
+  if (error) return <p className="text-red-600 text-sm">{error}</p>;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">Mes livres soumis</h1>
-      {books.length === 0 && <p className="text-slate-500">Vous n'avez encore soumis aucun livre.</p>}
-      <div className="space-y-3">
+      <p className="text-xs tracking-[0.2em] text-gold uppercase mb-2">Livres</p>
+      <h1 className="font-serif text-3xl text-charcoal mb-8">Mes livres soumis</h1>
+
+      {books.length === 0 && <p className="text-stone-muted text-sm">Vous n'avez encore soumis aucun livre.</p>}
+
+      <div className="space-y-2">
         {books.map((b) => (
-          <div key={b._id} className="bg-white rounded-lg shadow-sm p-4 flex items-center justify-between">
+          <div key={b._id} className="bg-white border border-stone-light rounded-lg p-4 flex items-center justify-between">
             <div>
-              <p className="font-bold text-slate-800">{b.titre}</p>
-              <p className="text-sm text-slate-500">{b.prix} DT</p>
+              <p className="font-serif text-charcoal">{b.titre}</p>
+              <p className="text-xs text-gold">{b.prix} DT</p>
             </div>
-            <span className={`px-2 py-0.5 rounded text-xs font-semibold ${b.statut === "En attente" ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>
+            <span className={`px-2.5 py-0.5 rounded text-[10px] tracking-wide uppercase font-medium ${
+              b.statut === "En attente" ? "bg-gold/15 text-gold" : "bg-indigo-blue/10 text-indigo-blue"
+            }`}>
               {b.statut}
             </span>
           </div>
