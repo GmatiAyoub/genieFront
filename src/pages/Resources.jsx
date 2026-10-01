@@ -73,13 +73,13 @@ function Resources() {
             </p>
             <h2 className="font-serif text-lg text-charcoal mb-4">{r.titre}</h2>
             <a
-              href={`/uploads/resources/${r.fichier}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-auto px-4 py-2.5 bg-charcoal text-cream text-center rounded-md text-sm hover:bg-indigo-blue transition-colors"
-            >
-              {t("download")}
-            </a>
+  href={r.fichier}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="mt-auto px-4 py-2.5 bg-charcoal text-cream text-center rounded-md text-sm hover:bg-indigo-blue transition-colors"
+>
+  {t("download")}
+</a>
           </div>
         ))}
       </div>

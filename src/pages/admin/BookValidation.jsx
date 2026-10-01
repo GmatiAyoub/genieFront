@@ -60,7 +60,7 @@ function BookValidation() {
         {books.map((b) => (
           <div key={b._id} className="bg-white border border-stone-light rounded-lg p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              {b.image && <img src={`/uploads/books/${b.image}`} alt={b.titre} className="w-12 h-12 object-cover rounded" />}
+              {b.image && <img src={b.image} alt={b.titre} className="w-12 h-12 object-cover rounded" />}
               <div>
                 <p className="font-serif text-charcoal">{b.titre} · <span className="text-gold text-sm">{b.prix} DT</span></p>
                 <p className="text-xs text-stone-muted">Proposé par {b.contributeur?.nom || "inconnu"} ({b.contributeur?.email})</p>

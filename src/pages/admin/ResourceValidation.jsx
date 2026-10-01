@@ -64,10 +64,14 @@ function ResourceValidation() {
               <p className="text-xs text-stone-muted">
                 {r.type} · {r.matiere} · proposé par {r.contributeur?.nom || "inconnu"} ({r.contributeur?.email})
               </p>
-              <a href={`/uploads/resources/${r.fichier}`} target="_blank" rel="noopener noreferrer"
-                className="text-xs text-indigo-blue hover:underline">
-                Voir le fichier
-              </a>
+              <a
+  href={r.fichier}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-xs text-indigo-blue hover:underline"
+>
+  Voir le fichier
+</a>
             </div>
             <div className="flex gap-2 shrink-0">
               <button onClick={() => handleValidate(r._id)} className="px-4 py-2 bg-charcoal text-cream rounded-md text-xs hover:bg-indigo-blue transition-colors">

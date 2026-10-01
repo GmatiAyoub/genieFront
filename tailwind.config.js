@@ -8,7 +8,7 @@ export default {
           deep: "#3730A3",
           blue: "#1E3A8A",
         },
-        charcoal: "#262626",
+        charcoal: "#1B2A4A",
         gold: "#B8935A",
         cream: "#FAF8F5",
         stone: {

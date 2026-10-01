@@ -104,7 +104,7 @@ function BooksManagement() {
           <label className="block text-xs text-stone-muted mb-1">Photo du livre</label>
           <input type="file" accept="image/png, image/jpeg, image/webp" onChange={handleFileChange} className="w-full text-sm" />
           {(imageFile || currentImage) && (
-            <img src={imageFile ? URL.createObjectURL(imageFile) : `/uploads/books/${currentImage}`} alt="Aperçu"
+            <img src={imageFile ? URL.createObjectURL(imageFile) : currentImage} alt="Aperçu"
               className="h-24 mt-2 rounded object-cover" />
           )}
         </div>
@@ -130,7 +130,11 @@ function BooksManagement() {
           <div key={b._id} className="bg-white border border-stone-light rounded-lg p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               {b.image ? (
-                <img src={`/uploads/books/${b.image}`} alt={b.titre} className="w-12 h-12 object-cover rounded" />
+                <img
+  src={b.image}
+  alt={b.titre}
+  className="w-12 h-12 object-cover rounded"
+/>
               ) : (
                 <div className="w-12 h-12 bg-cream rounded flex items-center justify-center text-stone-faint text-[10px]">N/A</div>
               )}

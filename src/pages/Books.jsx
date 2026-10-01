@@ -80,8 +80,12 @@ function Books() {
             className="bg-white border border-stone-light rounded-lg overflow-hidden flex flex-col hover:border-gold transition-colors"
           >
             {b.image ? (
-              <img src={`/uploads/books/${b.image}`} alt={b.titre} className="h-44 w-full object-cover" />
-            ) : (
+  <img
+    src={b.image}
+    alt={b.titre}
+    className="h-44 w-full object-cover"
+  />
+) : (
               <div className="h-44 w-full bg-cream flex items-center justify-center text-stone-faint text-sm">
                 Pas d'image
               </div>
