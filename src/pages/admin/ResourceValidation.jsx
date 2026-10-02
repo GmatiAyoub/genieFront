@@ -71,7 +71,7 @@ function ResourceValidation() {
   className="text-xs text-indigo-blue hover:underline"
 >
   Voir le fichier
-</a>
+</a>?
             </div>
             <div className="flex gap-2 shrink-0">
               <button onClick={() => handleValidate(r._id)} className="px-4 py-2 bg-charcoal text-cream rounded-md text-xs hover:bg-indigo-blue transition-colors">
