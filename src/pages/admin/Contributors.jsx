@@ -67,7 +67,7 @@ function Contributors() {
           className="w-full px-4 py-2.5 border border-stone-light rounded-md text-sm focus:outline-none focus:border-indigo-blue" />
         <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required
           className="w-full px-4 py-2.5 border border-stone-light rounded-md text-sm focus:outline-none focus:border-indigo-blue" />
-        <input type="password" name="password" placeholder="Mot de passe temporaire" value={form.password} onChange={handleChange} required
+        <input type="password" name="password" placeholder="Mot de passe temporaire (8 caractères minimum)" value={form.password} onChange={handleChange} minLength={8} required
           className="w-full px-4 py-2.5 border border-stone-light rounded-md text-sm focus:outline-none focus:border-indigo-blue" />
         {actionMsg && <p className="text-stone-muted text-xs">{actionMsg}</p>}
         <button type="submit" disabled={submitting}

@@ -33,6 +33,7 @@ function AdminLayout() {
           <Link to="/admin/livres" className={linkClass}>Gestion livres</Link>
           <Link to="/admin/contributeurs" className={linkClass}>Contributeurs</Link>
           <Link to="/admin/blog" className={linkClass}>Blog</Link>
+          <Link to="/admin/mot-de-passe" className={linkClass}>Mot de passe</Link>
         </nav>
         <div className="pt-4 border-t border-cream/10">
           <p className="text-xs text-cream/50 mb-2">{user?.nom}</p>

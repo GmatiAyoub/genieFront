@@ -28,6 +28,8 @@ import MyArticles from "./pages/contributor/MyArticles.jsx";
 import SubmitArticle from "./pages/contributor/SubmitArticle.jsx";
 
 import ResourcesManagement from "./pages/admin/ResourcesManagement.jsx";
+import ChangePassword from "./pages/ChangePassword.jsx";
+
 function App() {
   return (
     <BrowserRouter>
@@ -58,6 +60,8 @@ function App() {
           <Route path="livres" element={<BooksManagement />} />
           <Route path="contributeurs" element={<Contributors />} />
           <Route path="blog" element={<BlogManagement />} />
+          {/* dans le bloc /admin */}
+<Route path="mot-de-passe" element={<ChangePassword />} />
         </Route>
 
         {/* Espace Contributeur — réservé au rôle contributeur */}
@@ -76,6 +80,8 @@ function App() {
           <Route path="soumettre-livre" element={<SubmitBook />} />
           <Route path="mes-articles" element={<MyArticles />} />
           <Route path="soumettre-article" element={<SubmitArticle />} />
+          {/* dans le bloc /contributeur */}
+<Route path="mot-de-passe" element={<ChangePassword />} />
         </Route>
       </Routes>
     </BrowserRouter>

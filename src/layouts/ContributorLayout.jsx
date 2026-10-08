@@ -31,6 +31,7 @@ function ContributorLayout() {
           <Link to="/contributeur/soumettre-livre" className={linkClass}>Soumettre un livre</Link>
           <Link to="/contributeur/mes-articles" className={linkClass}>Mes blogs</Link>
           <Link to="/contributeur/soumettre-article" className={linkClass}>Soumettre un blog</Link>
+          <Link to="/contributeur/mot-de-passe" className={linkClass}>Mot de passe</Link>
         </nav>
         <div className="pt-4 border-t border-cream/10">
           <p className="text-xs text-cream/50 mb-2">{user?.nom}</p>
