@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import api from "../api/axiosInstance.js";
 import { useLang } from "../context/LangContext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -30,6 +31,8 @@ function CommentForm({ onSubmit, onCancel, initialValue = "", submitLabel = "Env
         onChange={(e) => setContenu(e.target.value)}
         required
         rows={2}
+        maxLength={1000}
+        dir="auto"
         className="w-full px-3 py-2 border border-stone-light rounded-md text-sm bg-white focus:outline-none focus:border-indigo-blue"
       />
       {error && <p className="text-red-600 text-xs">{error}</p>}
@@ -72,7 +75,7 @@ function SingleComment({ comment, isAdmin, canEdit, onReply, onEdit, onDelete, i
   return (
     <div className={isReply ? "bg-cream rounded-md p-3" : "bg-cream rounded-md p-4"}>
       <div className="flex items-start justify-between">
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <p className="text-xs font-medium text-charcoal">{comment.nom}</p>
           {editing ? (
             <CommentForm
@@ -82,7 +85,9 @@ function SingleComment({ comment, isAdmin, canEdit, onReply, onEdit, onDelete, i
               submitLabel="Enregistrer"
             />
           ) : (
-            <p className="text-sm text-stone-muted mt-1">{comment.contenu}</p>
+            <p className="text-sm text-stone-muted mt-1 break-words" dir="auto">
+              {comment.contenu}
+            </p>
           )}
         </div>
         <div className="flex gap-2 ml-2 shrink-0">
@@ -231,6 +236,7 @@ function CommentSection({ articleId }) {
 
 function Blog() {
   const { t } = useLang();
+  const { hash } = useLocation();
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -241,14 +247,15 @@ function Blog() {
       .then((res) => setArticles(res.data))
       .catch(() => setError("Impossible de charger les actualités."))
       .finally(() => setLoading(false));
-
-    if (window.location.hash) {
-      setTimeout(() => {
-        const el = document.getElementById(window.location.hash.slice(1));
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 300);
-    }
   }, []);
+
+  // Défile jusqu'à l'article visé (lien d'une notification), une fois les articles chargés
+  useEffect(() => {
+    if (!loading && hash) {
+      const el = document.getElementById(hash.slice(1));
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [loading, hash]);
 
   if (loading) return <p className="text-stone-muted text-sm">{t("loading")}</p>;
   if (error) return <p className="text-red-600 text-sm">{error}</p>;
@@ -267,10 +274,13 @@ function Blog() {
             id={`article-${a._id}`}
             className="bg-white border border-stone-light rounded-lg p-6"
           >
-            <h2 className="font-serif text-xl text-charcoal mb-3" dir={a.rtl ? "rtl" : "ltr"}>
+            <h2 className="font-serif text-xl text-charcoal mb-3 break-words" dir={a.rtl ? "rtl" : "ltr"}>
               {a.titre}
             </h2>
-            <p className="text-stone-muted text-sm leading-relaxed whitespace-pre-line" dir={a.rtl ? "rtl" : "ltr"}>
+            <p
+              className="text-stone-muted text-sm leading-relaxed whitespace-pre-line break-words"
+              dir={a.rtl ? "rtl" : "ltr"}
+            >
               {a.contenu}
             </p>
             <p className="text-[11px] text-stone-faint mt-4">
