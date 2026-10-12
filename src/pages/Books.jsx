@@ -15,9 +15,9 @@ function Books() {
   const [formError, setFormError] = useState("");
 
   const isValidTunisianPhone = (phone) => {
-    const cleaned = phone.replace(/\s/g, "");
-    return /^(\+216|216)?[24579]\d{7}$/.test(cleaned);
-  };
+  const cleaned = phone.replace(/[\s.\-]/g, "");
+  return /^(\+216|00216|216)?[24579]\d{7}$/.test(cleaned);
+};
 
   useEffect(() => {
     api

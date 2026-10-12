@@ -78,11 +78,14 @@ function Orders() {
           <div key={o._id} className="bg-white border border-stone-light rounded-lg p-4 flex items-center justify-between">
             <div>
               <p className="font-serif text-charcoal">
-                {o.livre?.titre} · <span className="text-gold text-sm">{o.livre?.prix} DT</span>
-              </p>
-              <p className="text-xs text-stone-muted">
-                Client : {o.nomClient} · Tél : {o.telephone} · Adresse : {o.adresse}
-              </p>
+  {o.titreLivre || o.livre?.titre || "Livre supprimé"} ·{" "}
+  <span className="text-gold text-sm">{o.prixLivre ?? o.livre?.prix} DT</span>
+</p>
+<p className="text-xs text-stone-muted">
+  Client : {o.nomClient} · Tél :{" "}
+  <a href={`tel:${o.telephone}`} className="text-indigo-blue hover:underline">{o.telephone}</a>{" "}
+  · Adresse : {o.adresse}
+</p>
               <div className="flex gap-2 mt-2">
                 <span className={`inline-block px-2.5 py-0.5 rounded text-[10px] tracking-wide uppercase font-medium ${
                   o.statut === "Nouveau" ? "bg-gold/15 text-gold" : "bg-indigo-blue/10 text-indigo-blue"
